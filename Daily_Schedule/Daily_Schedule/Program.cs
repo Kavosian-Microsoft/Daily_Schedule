@@ -25,10 +25,17 @@ namespace Daily_Schedule
         Medium=1,
         Very_Important=2
     }//Task_Importance
+    enum Task_Status {        
+        Waiting=0,
+        Started = 1,
+        Idle=2,
+        Finished =3
+    }//Task_Status
     class Actitvity {
         protected string _activityName;
         protected int _activityTimeToFinish;
         protected Task_Impartance _taskImportance;
+        protected Task_Status _task_Status;
         public string ActivityName {
             get { return _activityName; }//get
             set { _activityName = value; }//set
@@ -41,6 +48,11 @@ namespace Daily_Schedule
             get { return _taskImportance; }//get
             set { _taskImportance = value; }//set
         }//MyTask_Importance
+        public Task_Status MY_Task_Status {
+            get { return this.MY_Task_Status; }//get
+            set { this.MY_Task_Status = value; }//set
+        }//MY_Task_Status
+
     }//Activity
     class Program
     {
