@@ -20,48 +20,83 @@ namespace Daily_Schedule
     /// for dependencies I have to use a list. I am going to add depencency in next comming 
     /// version :-) 981226 03.16.2020 20:33
     /// </summary>
-    enum Task_Impartance {
-        Less_Important=0,
-        Medium=1,
-        Very_Important=2
+    enum Task_Impartance
+    {
+        Not_Set=-1,
+        Less_Important = 0,
+        Medium = 1,
+        Very_Important = 2
     }//Task_Importance
-    enum Task_Status {        
-        Waiting=0,
+    enum Task_Status
+    {
+        Waiting = 0,
         Started = 1,
-        Idle=2,
-        Finished =3
+        Idle = 2,
+        Finished = 3
     }//Task_Status
-    class Actitvity {
+    class Actitvity
+    {
         protected string _activityName;
         protected int _activityTimeToFinish;
         protected Task_Impartance _taskImportance;
         protected Task_Status _task_Status;
-        public string ActivityName {
+        public string ActivityName
+        {
             get { return _activityName; }//get
             set { _activityName = value; }//set
         }//ActivityName
-        public int ActivityTimeToFinish {
-            get{ return _activityTimeToFinish; }//get                
-            set { _activityTimeToFinish = value; }//set
+        public int ActivityTimeToFinish
+        {
+            get { return _activityTimeToFinish; }//get                
+            set
+            {
+                if (value >= 0)
+                {
+                    _activityTimeToFinish = value;
+                }//if value > 0 
+            }//set
         }//ActivityTimeToFinish
-        public Task_Impartance MyTask_Importance {
+        public Task_Impartance MyTask_Importance
+        {
             get { return _taskImportance; }//get
             set { _taskImportance = value; }//set
         }//MyTask_Importance
-        public Task_Status MY_Task_Status {
+        public Task_Status MY_Task_Status
+        {
             get { return this.MY_Task_Status; }//get
             set { this.MY_Task_Status = value; }//set
         }//MY_Task_Status
-
+        /// <summary>
+        /// This is the first constructor for activity class with no argument
+        /// </summary>
+        public Actitvity()
+        {
+            ActivityName = "";
+            ActivityTimeToFinish = 0;
+            MyTask_Importance = Task_Impartance.Not_Set;
+            MY_Task_Status = Task_Status.Waiting;
+        }//Activity
+        /// <summary>
+        /// This is the second constructor for activity class with onr argument representing
+        /// task name
+        /// </summary>
+        public Actitvity(string task_name)
+        {
+            ActivityName = task_name;
+            ActivityTimeToFinish = 0;
+            MyTask_Importance = Task_Impartance.Not_Set;
+            MY_Task_Status = Task_Status.Waiting;
+        }//Activity
     }//Activity
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             try
             {
-                List<string> tasks = new List<string>();
+                //The following List stores every instance of an activity
+                List<Actitvity> tasks = new List<Actitvity>();
                 Console.Title = "Simple daily schedualer";
                 int choice;
                 do
@@ -70,6 +105,7 @@ namespace Daily_Schedule
                     switch (choice)
                     {
                         case 0:
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.Write("\n\tPress any key to exit application...");
                             break;
                         case 1:
@@ -80,13 +116,15 @@ namespace Daily_Schedule
                     }//switch
 
                 } while (choice != 0);
+                Console.ReadKey();
             }//try
             catch (Exception)
             {
-                                
+
             }//catch
         }//Main
-        static int menu() {
+        static int menu()
+        {
             int result = -1;
             Console.Clear();
             Console.Write("\n\t0)Exit");
