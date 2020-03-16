@@ -26,7 +26,21 @@ namespace Daily_Schedule
         Very_Important=2
     }//Task_Importance
     class Actitvity {
-        
+        protected string _activityName;
+        protected int _activityTimeToFinish;
+        protected Task_Impartance _taskImportance;
+        public string ActivityName {
+            get { return _activityName; }//get
+            set { _activityName = value; }//set
+        }//ActivityName
+        public int ActivityTimeToFinish {
+            get{ return _activityTimeToFinish; }//get                
+            set { _activityTimeToFinish = value; }//set
+        }//ActivityTimeToFinish
+        public Task_Impartance MyTask_Importance {
+            get { return _taskImportance; }//get
+            set { _taskImportance = value; }//set
+        }//MyTask_Importance
     }//Activity
     class Program
     {
