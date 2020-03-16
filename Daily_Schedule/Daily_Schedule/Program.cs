@@ -6,8 +6,31 @@ using System.Threading.Tasks;
 
 namespace Daily_Schedule
 {
+
+    /// <summary>
+    /// This is a class to represent an activity
+    /// Any activity has got a name, for any activity I have to store stimated time to 
+    /// finish, it's importance and dependency. 
+    /// For name I am going to use an string property, for time to finsih I am going
+    /// to use an integer variable to hold the minutes required to fulfill the task. For 
+    /// inportance of any task it is better to define an enumeration with three choices:
+    ///     1)Very_Important
+    ///     2)Medium
+    ///     3)Less_Important
+    /// for dependencies I have to use a list. I am going to add depencency in next comming 
+    /// version :-) 981226 03.16.2020 20:33
+    /// </summary>
+    enum Task_Impartance {
+        Less_Important=0,
+        Medium=1,
+        Very_Important=2
+    }//Task_Importance
+    class Actitvity {
+        
+    }//Activity
     class Program
     {
+        
         static void Main(string[] args)
         {
             try
@@ -18,6 +41,18 @@ namespace Daily_Schedule
                 do
                 {
                     choice = menu();
+                    switch (choice)
+                    {
+                        case 0:
+                            Console.Write("\n\tPress any key to exit application...");
+                            break;
+                        case 1:
+
+                            break;
+                        default:
+                            break;
+                    }//switch
+
                 } while (choice != 0);
             }//try
             catch (Exception)
