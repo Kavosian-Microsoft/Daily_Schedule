@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Daily_Schedule
 {
@@ -22,7 +19,7 @@ namespace Daily_Schedule
     /// </summary>
     enum Task_Impartance
     {
-        Not_Set=-1,
+        Not_Set = -1,
         Less_Important = 0,
         Medium = 1,
         Very_Important = 2
@@ -63,8 +60,8 @@ namespace Daily_Schedule
         }//MyTask_Importance
         public Daily_Task_Status MY_Task_Status
         {
-            get { return this.MY_Task_Status; }//get
-            set { this.MY_Task_Status = value; }//set
+            get { return this._task_Status; }//get
+            set { _task_Status = value; }//set
         }//MY_Task_Status
         /// <summary>
         /// This is the first constructor for activity class with no argument
@@ -91,7 +88,7 @@ namespace Daily_Schedule
         /// This is the second constructor for activity class with two arguments representing
         /// task name and time to finsih
         /// </summary>
-        public Actitvity(string task_name,int task_time_to_finish)
+        public Actitvity(string task_name, int task_time_to_finish)
         {
             ActivityName = task_name;
             ActivityTimeToFinish = task_time_to_finish;
@@ -102,7 +99,7 @@ namespace Daily_Schedule
         /// This is the second constructor for activity class with three arguments representing
         /// task name and time to finsih and task importance
         /// </summary>
-        public Actitvity(string task_name, int task_time_to_finish,Task_Impartance task_importance)
+        public Actitvity(string task_name, int task_time_to_finish, Task_Impartance task_importance)
         {
             ActivityName = task_name;
             ActivityTimeToFinish = task_time_to_finish;
@@ -113,7 +110,7 @@ namespace Daily_Schedule
         /// This is the second constructor for activity class with four arguments representing
         /// task name and time to finsih and task importance and task status
         /// </summary>
-        public Actitvity(string task_name, int task_time_to_finish, Task_Impartance task_importance,Daily_Task_Status task_status)
+        public Actitvity(string task_name, int task_time_to_finish, Task_Impartance task_importance, Daily_Task_Status task_status)
         {
             ActivityName = task_name;
             ActivityTimeToFinish = task_time_to_finish;
@@ -142,7 +139,26 @@ namespace Daily_Schedule
                             Console.Write("\n\tPress any key to exit application...");
                             break;
                         case 1:
-
+                            ///This case is for adding new task to this system
+                            ///When  a new task is created, required data must be collected
+                            ///
+                            Actitvity tmp = new Actitvity();
+                            tmp = Get_New_Task_Data();
+                            tasks.Add(tmp);
+                            Console.Write("\n\tThe following activity is added to list");
+                            Console.Write("\n\tActivity Name:{0}", tmp.ActivityName);
+                            Console.Write("\n\tEstimetated time to finish:{0}", tmp.ActivityTimeToFinish);
+                            Console.Write("\n\tActivity importance:{0}", tmp.MyTask_Importance.ToString());
+                            Console.Write("\n\tActivity status:{0}", tmp.MY_Task_Status.ToString());
+                            Console.ReadKey();
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
                             break;
                         default:
                             break;
@@ -151,9 +167,12 @@ namespace Daily_Schedule
                 } while (choice != 0);
                 Console.ReadKey();
             }//try
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n\tAn exception has occured");
+                Console.Write("\n\tThe exception has got the following error ");
+                Console.Write("\n\t{0}", ex.Message);
             }//catch
         }//Main
         static int menu()
@@ -173,5 +192,63 @@ namespace Daily_Schedule
 
             return result;
         }//menu
+        //-----------------------------------------------------------------------------------
+        static void List_Activity(Actitvity act) {
+        }//List_Activity
+        //-----------------------------------------------------------------------------------
+        static Actitvity Get_New_Task_Data()
+        {
+            string strInput = "";
+            Actitvity newactivity = new Actitvity();
+            Console.Write("\n\tEnter Task Name:");
+            strInput = Console.ReadLine();
+            newactivity.ActivityName = strInput;
+            Console.Write("\n\tEnter Estimetate time to finish the task:");
+            strInput = Console.ReadLine();
+            newactivity.ActivityTimeToFinish = int.Parse(strInput);
+            Console.Write("\n\tEnter task importance (Less Important L,Medium M, Very Important V):");
+            strInput = Console.ReadLine();
+            char choice = char.Parse(strInput.ToLower());
+            switch (choice)
+            {
+                case 'l':
+                    newactivity.MyTask_Importance = Task_Impartance.Less_Important;
+                    break;
+                case 'm':
+                    newactivity.MyTask_Importance = Task_Impartance.Medium;
+                    break;
+                case 'v':
+                    newactivity.MyTask_Importance = Task_Impartance.Very_Important;
+                    break;
+                default:
+                    newactivity.MyTask_Importance = Task_Impartance.Not_Set;
+                    break;
+            }//switch
+
+            Console.Write("\n\tEnter task status (Waiting W, Started S, Idle I,Finished F):");
+            strInput = Console.ReadLine();
+            choice = char.Parse(strInput.ToLower());
+
+            switch (choice)
+            {
+                case 'w':
+                    newactivity.MY_Task_Status = Daily_Task_Status.Waiting;
+                    break;
+                case 's':
+                    newactivity.MY_Task_Status = Daily_Task_Status.Started;
+                    break;
+                case 'i':
+                    newactivity.MY_Task_Status = Daily_Task_Status.Idle;
+                    break;
+                case 'f':
+                    newactivity.MY_Task_Status = Daily_Task_Status.Finished;
+                    break;
+                default:
+                    newactivity.MY_Task_Status = Daily_Task_Status.Waiting;
+                    break;
+            }//switch
+            return newactivity;
+        }//Get_New_Task_Data
+        
     }//Program
 }//Daily_Schedule
