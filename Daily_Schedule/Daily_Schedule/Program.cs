@@ -31,7 +31,7 @@ namespace Daily_Schedule
         Idle = 2,
         Finished = 3
     }//Task_Status
-    class Actitvity
+    class Activity
     {
         protected string _activityName;
         protected int _activityTimeToFinish;
@@ -66,7 +66,7 @@ namespace Daily_Schedule
         /// <summary>
         /// This is the first constructor for activity class with no argument
         /// </summary>
-        public Actitvity()
+        public Activity()
         {
             ActivityName = "";
             ActivityTimeToFinish = 0;
@@ -77,7 +77,7 @@ namespace Daily_Schedule
         /// This is the second constructor for activity class with one argument representing
         /// task name
         /// </summary>
-        public Actitvity(string task_name)
+        public Activity(string task_name)
         {
             ActivityName = task_name;
             ActivityTimeToFinish = 0;
@@ -88,7 +88,7 @@ namespace Daily_Schedule
         /// This is the second constructor for activity class with two arguments representing
         /// task name and time to finsih
         /// </summary>
-        public Actitvity(string task_name, int task_time_to_finish)
+        public Activity(string task_name, int task_time_to_finish)
         {
             ActivityName = task_name;
             ActivityTimeToFinish = task_time_to_finish;
@@ -99,7 +99,7 @@ namespace Daily_Schedule
         /// This is the second constructor for activity class with three arguments representing
         /// task name and time to finsih and task importance
         /// </summary>
-        public Actitvity(string task_name, int task_time_to_finish, Task_Impartance task_importance)
+        public Activity(string task_name, int task_time_to_finish, Task_Impartance task_importance)
         {
             ActivityName = task_name;
             ActivityTimeToFinish = task_time_to_finish;
@@ -110,7 +110,7 @@ namespace Daily_Schedule
         /// This is the second constructor for activity class with four arguments representing
         /// task name and time to finsih and task importance and task status
         /// </summary>
-        public Actitvity(string task_name, int task_time_to_finish, Task_Impartance task_importance, Daily_Task_Status task_status)
+        public Activity(string task_name, int task_time_to_finish, Task_Impartance task_importance, Daily_Task_Status task_status)
         {
             ActivityName = task_name;
             ActivityTimeToFinish = task_time_to_finish;
@@ -126,12 +126,12 @@ namespace Daily_Schedule
             try
             {
                 //The following List stores every instance of an activity
-                List<Actitvity> tasks = new List<Actitvity>();
+                List<Activity> tasks = new List<Activity>();
                 Console.Title = "Simple daily schedualer";
                 int choice;
                 do
                 {
-                    choice = menu();
+                    choice = menu(tasks.Count);
                     switch (choice)
                     {
                         case 0:
@@ -142,7 +142,7 @@ namespace Daily_Schedule
                             ///This case is for adding new task to this system
                             ///When  a new task is created, required data must be collected
                             ///
-                            Actitvity tmp = new Actitvity();
+                            Activity tmp = new Activity();
                             tmp = Get_New_Task_Data();
                             tasks.Add(tmp);
                             Console.Write("\n\tThe following activity is added to list");
@@ -153,6 +153,11 @@ namespace Daily_Schedule
                             Console.ReadKey();
                             break;
                         case 2:
+                            foreach (Activity a in tasks)
+                            {
+                                List_Activity(a);
+                            }//foreach
+                            Console.ReadKey();
                             break;
                         case 3:
                             break;
@@ -175,10 +180,13 @@ namespace Daily_Schedule
                 Console.Write("\n\t{0}", ex.Message);
             }//catch
         }//Main
-        static int menu()
+        static int menu(int numberOfTasks)
         {
+
             int result = -1;
             Console.Clear();
+            Console.Write("\n\tNumber of current tasks={0}", numberOfTasks);
+            Console.Write("\n\t==============================");
             Console.Write("\n\t0)Exit");
             Console.Write("\n\t1)Enter new task");
             Console.Write("\n\t2)List Tasks");
@@ -193,13 +201,20 @@ namespace Daily_Schedule
             return result;
         }//menu
         //-----------------------------------------------------------------------------------
-        static void List_Activity(Actitvity act) {
+        static void List_Activity(Activity act) {
+            Console.Write("\n\t================================================");
+            Console.Write("\n\tTask Name: {0}", act.ActivityName);
+            Console.Write("\n\tTask Time to finish: {0}", act.ActivityTimeToFinish);
+            Console.Write("\n\tTask Importance: {0}", act.MyTask_Importance.ToString());
+            Console.Write("\n\tTask Status={0}", act.MY_Task_Status.ToString());
+            Console.Write("\n\t================================================");
+
         }//List_Activity
         //-----------------------------------------------------------------------------------
-        static Actitvity Get_New_Task_Data()
+        static Activity Get_New_Task_Data()
         {
             string strInput = "";
-            Actitvity newactivity = new Actitvity();
+            Activity newactivity = new Activity();
             Console.Write("\n\tEnter Task Name:");
             strInput = Console.ReadLine();
             newactivity.ActivityName = strInput;
