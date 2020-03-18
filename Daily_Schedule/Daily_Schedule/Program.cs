@@ -174,6 +174,16 @@ namespace Daily_Schedule
                         case 3:
                             ///This case is for edittng an existing task
                             ///
+                            if (tasks.Count == 0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write("\n\tThere is no activity in your schedule");
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                Console.ReadKey();
+                            }//if task list is empty
+                            else {
+
+                            }//else if list has got tasks
                             break;
                         case 4:
                             break;
