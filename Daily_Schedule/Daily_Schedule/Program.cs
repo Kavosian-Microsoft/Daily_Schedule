@@ -145,19 +145,31 @@ namespace Daily_Schedule
                             Activity tmp = new Activity();
                             tmp = Get_New_Task_Data();
                             tasks.Add(tmp);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("\n\t=======================================");
+                            Console.ForegroundColor = ConsoleColor.Gray;
                             Console.Write("\n\tThe following activity is added to list");
                             Console.Write("\n\tActivity Name:{0}", tmp.ActivityName);
                             Console.Write("\n\tEstimetated time to finish:{0}", tmp.ActivityTimeToFinish);
                             Console.Write("\n\tActivity importance:{0}", tmp.MyTask_Importance.ToString());
                             Console.Write("\n\tActivity status:{0}", tmp.MY_Task_Status.ToString());
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("\n\t=======================================");
+                            Console.ForegroundColor = ConsoleColor.Gray;
+
                             Console.ReadKey();
                             break;
                         case 2:
                             if (tasks.Count > 0)
                             {
+                                int i = 0;
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.Write("\n\t================================================");
+                                Console.ForegroundColor = ConsoleColor.Gray;
                                 foreach (Activity a in tasks)
                                 {
-                                    List_Activity(a);
+                                    i++;
+                                    List_Activity(a,i);
                                 }//foreach
                             }//if there is task to list
                             else {
@@ -168,6 +180,8 @@ namespace Daily_Schedule
                             Console.ReadKey();
                             break;
                         case 3:
+                            ///This case is for edittng an existing task
+                            ///
                             break;
                         case 4:
                             break;
@@ -194,29 +208,36 @@ namespace Daily_Schedule
             int result = -1;
             Console.Clear();
             Console.Write("\n\tNumber of current tasks={0}", numberOfTasks);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t==============================");
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write("\n\t0)Exit");
             Console.Write("\n\t1)Enter new task");
             Console.Write("\n\t2)List Tasks");
             Console.Write("\n\t3)Edit Task");
             Console.Write("\n\t4)Delete Task");
             Console.Write("\n\t5)Remove All Tasks");
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t=========================");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Write("\n\tEnter your choice:");
+            Console.ForegroundColor = ConsoleColor.Gray;
             result = int.Parse(Console.ReadLine());
 
 
             return result;
         }//menu
         //-----------------------------------------------------------------------------------
-        static void List_Activity(Activity act) {
-            Console.Write("\n\t================================================");
+        static void List_Activity(Activity act,int index) {
+            
+            Console.Write("\n\tTask Number: {0}", index);
             Console.Write("\n\tTask Name: {0}", act.ActivityName);
             Console.Write("\n\tTask Time to finish: {0}", act.ActivityTimeToFinish);
             Console.Write("\n\tTask Importance: {0}", act.MyTask_Importance.ToString());
             Console.Write("\n\tTask Status={0}", act.MY_Task_Status.ToString());
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t================================================");
-
+            Console.ForegroundColor = ConsoleColor.Gray;
         }//List_Activity
         //-----------------------------------------------------------------------------------
         static Activity Get_New_Task_Data()
