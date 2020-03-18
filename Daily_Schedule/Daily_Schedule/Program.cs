@@ -192,7 +192,16 @@ namespace Daily_Schedule
                                     Console.ReadKey();
                                 }//if index out of range
                                 else {
+                                    Activity t = new Activity();
+                                    t = tasks[indexToEdit-1];
+                                    Console.Write("\n\t=======================================");
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+                                    List_Activity(t, indexToEdit);
 
+                                    t=get_new_data_for_existing_Task(t);
+                                    tasks[indexToEdit - 1] = t;
+                                    Console.Write("\n\tOne record is editted....");
+                                    Console.ReadKey();
                                 }//else if index is in reach
                             }//else if list has got tasks
                             break;
@@ -339,5 +348,117 @@ namespace Daily_Schedule
             }//catch
             return index;
         }//get_index_of_editting_cell
+         //---------------------------------------------------------
+         /// <summary>
+         /// This method gets the current Task as parameter and asks for new data from user
+         /// </summary>
+         /// <param name="act"></param>
+         /// <returns></returns>
+        static Activity get_new_data_for_existing_Task(Activity act) {
+            string strInput = "";
+            Activity edittedActivity = new Activity();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\n\t===================");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("\n\t Editting Task ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\n\t===================");
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            Console.Write("\n\tTask Name:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.ActivityName);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write(" (Enter new name or press enter to accept current name) :");
+            strInput = Console.ReadLine();
+            if (strInput.Length == 0)
+            {
+                edittedActivity.ActivityName = act.ActivityName;
+            }//Currrent name is confirmed
+            else {
+                edittedActivity.ActivityName = strInput;
+            }//else if new name is entered
+
+            Console.Write("\n\tTask Time to finish:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.ActivityTimeToFinish);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write(" (Enter new Time to finish or press enter to accept current Task Time to finish) :");
+            strInput = Console.ReadLine();
+            if (strInput.Length == 0)
+            {
+                edittedActivity.ActivityTimeToFinish = act.ActivityTimeToFinish;
+            }//Currrent ActivityTimeToFinish is confirmed
+            else
+            {
+                edittedActivity.ActivityTimeToFinish = int.Parse(strInput);
+            }//else if new ActivityTimeToFinish is entered
+
+            Console.Write("\n\tTask Importance:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.MyTask_Importance.ToString());
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write(" (Enter newTask Importance or press enter to accept current Task Importance V,M,L) :");
+            strInput = Console.ReadLine();
+            if (strInput.Length == 0)
+            {
+                edittedActivity.MyTask_Importance = act.MyTask_Importance;
+            }//Currrent MyTask_Importance is confirmed
+            else
+            {                
+                char choice = char.Parse(strInput.ToLower());
+                switch (choice)
+                {
+                    case 'l':
+                        edittedActivity.MyTask_Importance = Task_Impartance.Less_Important;
+                        break;
+                    case 'm':
+                        edittedActivity.MyTask_Importance = Task_Impartance.Medium;
+                        break;
+                    case 'v':
+                        edittedActivity.MyTask_Importance = Task_Impartance.Very_Important;
+                        break;
+                    default:
+                        edittedActivity.MyTask_Importance = Task_Impartance.Not_Set;
+                        break;
+                }//switch
+                
+            }//else if new MyTask_Importance is entered
+
+            Console.Write("\n\tTask Status=");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.MY_Task_Status.ToString());
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write(" (Enter new Task Status or press enter to accept current Task Status W,I,F,S) :");
+            strInput = Console.ReadLine();
+            if (strInput.Length == 0)
+            {
+                edittedActivity.MY_Task_Status = act.MY_Task_Status;
+            }//Currrent Task Status is confirmed
+            else
+            {
+                char choice = char.Parse(strInput.ToLower());
+                switch (choice)
+                {
+                    case 'w':
+                        edittedActivity.MY_Task_Status = Daily_Task_Status.Waiting;
+                        break;
+                    case 's':
+                        edittedActivity.MY_Task_Status = Daily_Task_Status.Started;
+                        break;
+                    case 'i':
+                        edittedActivity.MY_Task_Status = Daily_Task_Status.Idle;
+                        break;
+                    case 'f':
+                        edittedActivity.MY_Task_Status = Daily_Task_Status.Finished;
+                        break;
+                    default:
+                        edittedActivity.MY_Task_Status = Daily_Task_Status.Waiting;
+                        break;
+                }//switch
+            }//else if new MY_Task_Status is entered
+            return edittedActivity;
+        }//static Activity get_new_data_for_existing_Task
     }//Program
 }//Daily_Schedule
