@@ -182,7 +182,18 @@ namespace Daily_Schedule
                                 Console.ReadKey();
                             }//if task list is empty
                             else {
+                                int indexToEdit;
+                                indexToEdit = get_index_of_editting_cell();
+                                if ((indexToEdit < 0) || (indexToEdit > tasks.Count))
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.Write("\n\tIndex is out of range, please try again");
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+                                    Console.ReadKey();
+                                }//if index out of range
+                                else {
 
+                                }//else if index is in reach
                             }//else if list has got tasks
                             break;
                         case 4:
@@ -200,6 +211,7 @@ namespace Daily_Schedule
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("\n\tAn exception has occured");
+                Console.Write("\n\tException no =1");
                 Console.Write("\n\tThe exception has got the following error ");
                 Console.Write("\n\t{0}", ex.Message);
             }//catch
@@ -310,6 +322,22 @@ namespace Daily_Schedule
             }//switch
             return newactivity;
         }//Get_New_Task_Data
-
+        static int get_index_of_editting_cell() {
+            int index=-1;
+            try
+            {
+                Console.Write("\n\tEnter index of task to edit:");
+                index = int.Parse(Console.ReadLine());                
+            }//try
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n\tAn exception has occured");
+                Console.Write("\n\tException no =2");
+                Console.Write("\n\tThe exception has got the following error ");
+                Console.Write("\n\t{0}", ex.Message);
+            }//catch
+            return index;
+        }//get_index_of_editting_cell
     }//Program
 }//Daily_Schedule
