@@ -153,10 +153,18 @@ namespace Daily_Schedule
                             Console.ReadKey();
                             break;
                         case 2:
-                            foreach (Activity a in tasks)
+                            if (tasks.Count > 0)
                             {
-                                List_Activity(a);
-                            }//foreach
+                                foreach (Activity a in tasks)
+                                {
+                                    List_Activity(a);
+                                }//foreach
+                            }//if there is task to list
+                            else {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write("\n\tThere is no activity in your schedule");
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                            }//else
                             Console.ReadKey();
                             break;
                         case 3:
