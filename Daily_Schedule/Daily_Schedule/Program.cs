@@ -144,19 +144,10 @@ namespace Daily_Schedule
                             ///
                             Activity tmp = new Activity();
                             tmp = Get_New_Task_Data();
-                            tasks.Add(tmp);
-                            Console.ForegroundColor = ConsoleColor.Green;
+                            tasks.Add(tmp); Console.ForegroundColor = ConsoleColor.Green;
                             Console.Write("\n\t=======================================");
                             Console.ForegroundColor = ConsoleColor.Gray;
-                            Console.Write("\n\tThe following activity is added to list");
-                            Console.Write("\n\tActivity Name:{0}", tmp.ActivityName);
-                            Console.Write("\n\tEstimetated time to finish:{0}", tmp.ActivityTimeToFinish);
-                            Console.Write("\n\tActivity importance:{0}", tmp.MyTask_Importance.ToString());
-                            Console.Write("\n\tActivity status:{0}", tmp.MY_Task_Status.ToString());
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write("\n\t=======================================");
-                            Console.ForegroundColor = ConsoleColor.Gray;
-
+                            List_Activity(tmp, tasks.Count);
                             Console.ReadKey();
                             break;
                         case 2:
@@ -169,10 +160,11 @@ namespace Daily_Schedule
                                 foreach (Activity a in tasks)
                                 {
                                     i++;
-                                    List_Activity(a,i);
+                                    List_Activity(a, i);
                                 }//foreach
                             }//if there is task to list
-                            else {
+                            else
+                            {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.Write("\n\tThere is no activity in your schedule");
                                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -204,7 +196,6 @@ namespace Daily_Schedule
         }//Main
         static int menu(int numberOfTasks)
         {
-
             int result = -1;
             Console.Clear();
             Console.Write("\n\tNumber of current tasks={0}", numberOfTasks);
@@ -228,13 +219,29 @@ namespace Daily_Schedule
             return result;
         }//menu
         //-----------------------------------------------------------------------------------
-        static void List_Activity(Activity act,int index) {
-            
-            Console.Write("\n\tTask Number: {0}", index);
-            Console.Write("\n\tTask Name: {0}", act.ActivityName);
-            Console.Write("\n\tTask Time to finish: {0}", act.ActivityTimeToFinish);
-            Console.Write("\n\tTask Importance: {0}", act.MyTask_Importance.ToString());
-            Console.Write("\n\tTask Status={0}", act.MY_Task_Status.ToString());
+        static void List_Activity(Activity act, int index)
+        {
+
+            Console.Write("\n\tTask Number:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(index);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("\n\tTask Name:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.ActivityName);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("\n\tTask Time to finish:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.ActivityTimeToFinish);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("\n\tTask Importance:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.MyTask_Importance.ToString());
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("\n\tTask Status=");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(act.MY_Task_Status.ToString());
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t================================================");
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -293,6 +300,6 @@ namespace Daily_Schedule
             }//switch
             return newactivity;
         }//Get_New_Task_Data
-        
+
     }//Program
 }//Daily_Schedule
