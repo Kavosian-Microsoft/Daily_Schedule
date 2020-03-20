@@ -241,6 +241,26 @@ namespace Daily_Schedule
 
                             break;
                         case 5:
+                            ///This case is for clearing the whole task list
+                            ///
+                            if (tasks.Count > 0)
+                            {
+                                if (get_confirm_to_Delete()) {
+                                    tasks.Clear();
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.Write("\n\tAll tasks are removed....");
+                                    Console.ForegroundColor = ConsoleColor.Gray;
+                                    Console.Write("\n\tpress any key to continue...");
+                                }//if
+                            }//if there is task to list
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write("\n\tThere is no activity in your schedule");
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                
+                            }//else
+                            Console.ReadKey();
                             break;
                         default:
                             break;
@@ -541,7 +561,7 @@ namespace Daily_Schedule
             bool repeat = true;
             do
             {
-                Console.Write("\n\tAre you sure that you want to delete the task? (y/n)");
+                Console.Write("\n\tAre you sure that you want to delete the task(s)? (y/n)");
                 string strInput = Console.ReadLine().ToLower();
                 char choice = char.Parse(strInput);
                 if ((choice == 'y') || (choice == 'n'))
