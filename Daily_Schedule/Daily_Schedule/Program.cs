@@ -151,6 +151,7 @@ namespace Daily_Schedule
                             Console.ReadKey();
                             break;
                         case 2:
+                            ///This case is for listing activities 
                             if (tasks.Count > 0)
                             {
                                 int i = 0;
@@ -206,6 +207,38 @@ namespace Daily_Schedule
                             }//else if list has got tasks
                             break;
                         case 4:
+                            ///This case is for deletting an Item from tasks 
+                            ///
+                            ///
+
+                            if (tasks.Count > 0)
+                            {
+                                int index;
+                                index = get_RemovalTakID(0, tasks.Count - 1);
+                                if (index != -1) {
+                                    Activity act = new Activity();
+                                    act = tasks[index];
+                                    List_Activity(act, index);
+                                    if (get_confirm_to_Delete())
+                                    {
+                                        tasks.RemoveAt(index);
+                                        Console.ForegroundColor = ConsoleColor.Yellow;
+                                        Console.Write("\n\tOne task is removed....");                                        
+                                        Console.ForegroundColor = ConsoleColor.Gray;
+                                        Console.Write("\n\tpress any key to continue...");
+                                    }//if it is ok to delete
+                                }//if correct index is entered
+                                
+                            }//if there is task to list
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write("\n\tThere is no activity in your schedule");
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                            }//else
+                            Console.ReadKey();
+
+
                             break;
                         case 5:
                             break;
@@ -460,5 +493,77 @@ namespace Daily_Schedule
             }//else if new MY_Task_Status is entered
             return edittedActivity;
         }//static Activity get_new_data_for_existing_Task
+        /// <summary>
+        /// Theget_RemovalTaskID gets min and max number if activities list indexes and asks user ti 
+        /// enter an index to remove content
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns>int index</returns>
+        static int get_RemovalTakID(int min,int max) {
+            int index = -1;
+            try
+            {
+                bool repeat = true;                
+                do
+                {
+                    Console.Write("\n\tEnter task ID to delete (please enter a number from {0} to {1} [-1 to exit]) :",min,max);
+                    index = int.Parse(Console.ReadLine());
+                    if ((index >= min) && (index <= max))
+                    {
+                        repeat = false;
+                    }//if entery is correct 
+                    else if (index == -1) {
+                        repeat = false;
+                    }//if exit code e\is entered
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("\n\tPlease try again with an index in the range");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.ReadKey();
+                    }//else
+                } while (repeat);
+            }//try
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n\tAn exception with thw following message has occured ");
+                Console.Write("\n\t{0}",ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ReadKey();
+            }//catch
+
+            return index;
+        }//Delete_Task
+        static bool get_confirm_to_Delete() {
+            bool confirm = false;
+            bool repeat = true;
+            do
+            {
+                Console.Write("\n\tAre you sure that you want to delete the task? (y/n)");
+                string strInput = Console.ReadLine().ToLower();
+                char choice = char.Parse(strInput);
+                if ((choice == 'y') || (choice == 'n'))
+                {
+                    if (choice == 'y')
+                    {
+                        confirm = true;
+                    }//if yes
+                    else if (choice == 'n') {
+                        confirm = false;
+                    }//else if no
+                    repeat = false;
+                }//if entery is correct 
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\n\tPlease try again and enter y or n ");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.ReadKey();
+                }//else
+            } while (repeat);
+            return confirm;
+        }//get_Confirm
     }//Program
 }//Daily_Schedule
