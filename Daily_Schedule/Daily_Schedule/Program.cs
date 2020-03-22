@@ -128,10 +128,11 @@ namespace Daily_Schedule
                 //The following List stores every instance of an activity
                 List<Activity> tasks = new List<Activity>();
                 Console.Title = "Simple daily schedualer";
+                string strFileName = "dataFile.txt";
                 int choice;
                 do
                 {
-                    choice = menu(tasks.Count);
+                    choice = menu(tasks.Count, strFileName);
                     switch (choice)
                     {
                         case 0:
@@ -262,6 +263,16 @@ namespace Daily_Schedule
                             }//else
                             Console.ReadKey();
                             break;
+                            ///This Case is for getting new file name
+                            ///
+                        case 6:
+                            strFileName = get_file_Name(strFileName);
+                            break;
+                            ///This case is for writting data to file
+                        case 7:
+
+                            break;
+
                         default:
                             break;
                     }//switch
@@ -279,10 +290,16 @@ namespace Daily_Schedule
                 Console.ReadKey();
             }//catch
         }//Main
-        static int menu(int numberOfTasks)
+        static int menu(int numberOfTasks,string fileName)
         {
             int result = -1;
             Console.Clear();
+            Console.Write("\n\tCurrent Data File=");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(fileName);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\n\t==============================");
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write("\n\tNumber of current tasks={0}", numberOfTasks);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t==============================");
@@ -293,14 +310,14 @@ namespace Daily_Schedule
             Console.Write("\n\t3)Edit Task");
             Console.Write("\n\t4)Delete Task");
             Console.Write("\n\t5)Remove All Tasks");
+            Console.Write("\n\t6)Change Data File");
+            Console.Write("\n\t7)Write Data to file");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t=========================");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("\n\tEnter your choice:");
             Console.ForegroundColor = ConsoleColor.Gray;
             result = int.Parse(Console.ReadLine());
-
-
             return result;
         }//menu
         //-----------------------------------------------------------------------------------
@@ -586,5 +603,22 @@ namespace Daily_Schedule
             } while (repeat);
             return confirm;
         }//get_Confirm
+        //-------------------------------------------------------------
+        static string get_file_Name(string current_file_name) {
+            string new_file_name = "";
+            Console.Write("\n\tEnter new file name (Default==>{0}) " +
+                "[Enter to confirm current file]:",current_file_name);
+            new_file_name = Console.ReadLine();
+            if (new_file_name.Length == 0)
+            {
+                new_file_name = current_file_name;
+            }//If current file name is confirmed
+            else {
+
+            }//else if new file name is entered
+            return new_file_name;
+        }//get_file_Name
+        //-------------------------------------------------------------
+        //-------------------------------------------------------------
     }//Program
 }//Daily_Schedule
