@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 namespace Daily_Schedule
 {
 
@@ -270,9 +270,32 @@ namespace Daily_Schedule
                             break;
                             ///This case is for writting data to file
                         case 7:
-
+                            if (tasks.Count > 0)
+                            {
+                                Console.Write("\n\tWriting data to file started at===>{0}", DateTime.Now.ToLongTimeString());
+                                Console.Beep(300, 200);
+                                System.IO.File.Delete(strFileName);
+                                foreach (Activity item in tasks)
+                                {
+                                    write_data_to_file(item, strFileName);
+                                }//foreach
+                                Console.Beep(500, 200);
+                                Console.Write("\n\tWriting data to file finished at {0}", DateTime.Now.ToLongTimeString());                                
+                                
+                            }//if there is task to list
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write("\n\tThere is no activity in your schedule");
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                            }//else
+                            Console.ReadKey();
                             break;
-
+                        ///This Case is for reading data from data file
+                        case 8:
+                            tasks.Clear();
+                            Read_data_from_file(ref tasks, strFileName);
+                            break;
                         default:
                             break;
                     }//switch
@@ -293,6 +316,8 @@ namespace Daily_Schedule
         static int menu(int numberOfTasks,string fileName)
         {
             int result = -1;
+            char chrInput=' ';
+            string strInput = "";
             Console.Clear();
             Console.Write("\n\tCurrent Data File=");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -311,19 +336,25 @@ namespace Daily_Schedule
             Console.Write("\n\t4)Delete Task");
             Console.Write("\n\t5)Remove All Tasks");
             Console.Write("\n\t6)Change Data File");
-            Console.Write("\n\t7)Write Data to file");
+            Console.Write("\n\t7)Write Data to File");
+            Console.Write("\n\t8)Read Data from File");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t=========================");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("\n\tEnter your choice:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            result = int.Parse(Console.ReadLine());
+            strInput = Console.ReadLine();
+            if (strInput.Length == 1) {
+                chrInput = strInput[0];
+                if (char.IsNumber(chrInput)) {
+                    result = int.Parse(strInput);
+                }//if
+            }//if user has entered a choice            
             return result;
         }//menu
         //-----------------------------------------------------------------------------------
         static void List_Activity(Activity act, int index)
-        {
-            Console.Write("\n\tTask Size={0}",System.Runtime.InteropServices.Marshal.SizeOf(act));
+        {            
             Console.Write("\n\tTask Number:");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(index);
@@ -618,7 +649,131 @@ namespace Daily_Schedule
             }//else if new file name is entered
             return new_file_name;
         }//get_file_Name
-        //-------------------------------------------------------------
-        //-------------------------------------------------------------
+        //--------------------- write_data_to_file ----------------------------
+        static void write_data_to_file(Activity act,string fileName) {
+            try
+            {
+                FileStream destFile = new FileStream(fileName, FileMode.Append, FileAccess.Write);
+                BinaryWriter writer = new BinaryWriter(destFile);
+                writer.Write(act.ActivityName);
+                writer.Write(act.ActivityTimeToFinish);
+                int actimportance = -2;
+                switch (act.MyTask_Importance)
+                {
+                    case Task_Impartance.Not_Set:
+                        actimportance = -1;
+                        break;
+                    case Task_Impartance.Less_Important:
+                        actimportance = 0;
+                        break;
+                    case Task_Impartance.Medium:
+                        actimportance = 1;
+                        break;
+                    case Task_Impartance.Very_Important:
+                        actimportance = 2;
+                        break;
+                    default:
+                        break;
+                }//switch
+                writer.Write(actimportance);
+
+                int actstatus=-1;
+                switch (act.MY_Task_Status)
+                {
+                    case Daily_Task_Status.Waiting:
+                        actstatus = 0;
+                        break;
+                    case Daily_Task_Status.Started:
+                        actstatus = 1;
+                        break;
+                    case Daily_Task_Status.Idle:
+                        actstatus = 2;
+                        break;
+                    case Daily_Task_Status.Finished:
+                        actstatus = 3;
+                        break;
+                    default:
+                        break;
+                }//switch
+                writer.Write(actstatus);
+                writer.Close();
+                destFile.Close();
+            }//try
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n\tAn exception with thw following message has occured ");
+                Console.Write("\n\t{0}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ReadKey();
+            }//catch
+        }//write_data_to_file
+        //--------------------- Read_data_from_file ----------------------------
+        static void Read_data_from_file(ref List<Activity> activities,string fileName)
+        {
+            try
+            {
+                FileStream sourceFile = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                BinaryReader reader = new BinaryReader(sourceFile);
+                Activity act = new Activity();
+                int actimportance = -2;
+                int actstatus = -1;
+                while (sourceFile.Position < sourceFile.Length) {
+                    act.ActivityName = reader.ReadString();
+                    act.ActivityTimeToFinish = reader.ReadInt32();
+                    actimportance = reader.ReadInt32();
+                    switch (actimportance)
+                    {
+                        case -1:
+                            act.MyTask_Importance=Task_Impartance.Not_Set;
+                            break;
+                        case 0:
+                            act.MyTask_Importance = Task_Impartance.Less_Important;
+                            break;
+                        case 1:
+                            act.MyTask_Importance = Task_Impartance.Medium;
+                            break;
+                        case 2:
+                            act.MyTask_Importance = Task_Impartance.Very_Important;
+                            break;
+                        default:
+                            break;
+                    }//switch
+                    actstatus = reader.ReadInt32();
+                    switch (actstatus)
+                    {
+                        case 0:
+                            act.MY_Task_Status = Daily_Task_Status.Waiting;
+                            break;
+                        case 1:
+                            act.MY_Task_Status = Daily_Task_Status.Started;
+                            break;
+                        case 2:
+                            act.MY_Task_Status = Daily_Task_Status.Idle;
+                            break;
+                        case 3:
+                            act.MY_Task_Status = Daily_Task_Status.Finished;
+                            break;
+                        default:
+                            break;
+                    }//switch
+                    activities.Add(act);
+                }//while there is data
+
+                
+                reader.Close();
+                sourceFile.Close();
+            }//try
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n\tAn exception with thw following message has occured ");
+                Console.Write("\n\t{0}", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ReadKey();
+            }//catch
+        }//write_data_to_file
+        //---------------------------------------------------------------------
     }//Program
+
 }//Daily_Schedule
