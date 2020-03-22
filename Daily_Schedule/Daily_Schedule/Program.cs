@@ -276,6 +276,7 @@ namespace Daily_Schedule
                 Console.Write("\n\tException no =1");
                 Console.Write("\n\tThe exception has got the following error ");
                 Console.Write("\n\t{0}", ex.Message);
+                Console.ReadKey();
             }//catch
         }//Main
         static int menu(int numberOfTasks)
@@ -305,7 +306,7 @@ namespace Daily_Schedule
         //-----------------------------------------------------------------------------------
         static void List_Activity(Activity act, int index)
         {
-
+            Console.Write("\n\tTask Size={0}",System.Runtime.InteropServices.Marshal.SizeOf(act));
             Console.Write("\n\tTask Number:");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(index);
