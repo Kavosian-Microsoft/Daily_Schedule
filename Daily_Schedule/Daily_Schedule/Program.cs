@@ -275,7 +275,7 @@ namespace Daily_Schedule
                                 Console.Write("\n\tWriting data to file started at===>{0}", DateTime.Now.ToLongTimeString());
                                 Console.Beep(300, 200);
                                 System.IO.File.Delete(strFileName);
-                                foreach (Activity item in tasks)
+                                 foreach (Activity item in tasks)
                                 {
                                     write_data_to_file(item, strFileName);
                                 }//foreach
@@ -715,10 +715,11 @@ namespace Daily_Schedule
             {
                 FileStream sourceFile = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 BinaryReader reader = new BinaryReader(sourceFile);
-                Activity act = new Activity();
+                //Activity act = new Activity();
                 int actimportance = -2;
                 int actstatus = -1;
                 while (sourceFile.Position < sourceFile.Length) {
+                    Activity act = new Activity();
                     act.ActivityName = reader.ReadString();
                     act.ActivityTimeToFinish = reader.ReadInt32();
                     actimportance = reader.ReadInt32();
