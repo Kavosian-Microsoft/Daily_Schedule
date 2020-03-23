@@ -130,9 +130,12 @@ namespace Daily_Schedule
                 Console.Title = "Simple daily schedualer";
                 string strFileName = "dataFile.txt";
                 int choice;
+                ///This Variable stores total time of the schedule to be displayed 
+                ///in menu method
+                int intTotalScheduleTime = 0;
                 do
                 {
-                    choice = menu(tasks.Count, strFileName);
+                    choice = menu(tasks.Count, strFileName, intTotalScheduleTime);
                     switch (choice)
                     {
                         case 0:
@@ -149,6 +152,7 @@ namespace Daily_Schedule
                             Console.Write("\n\t=======================================");
                             Console.ForegroundColor = ConsoleColor.Gray;
                             List_Activity(tmp, tasks.Count);
+                            intTotalScheduleTime += tmp.ActivityTimeToFinish;
                             Console.ReadKey();
                             break;
                         case 2:
@@ -294,7 +298,7 @@ namespace Daily_Schedule
                         ///This Case is for reading data from data file
                         case 8:
                             tasks.Clear();
-                            Read_data_from_file(ref tasks, strFileName);
+                            intTotalScheduleTime=Read_data_from_file(ref tasks, strFileName);
                             break;
                         default:
                             break;
@@ -313,7 +317,7 @@ namespace Daily_Schedule
                 Console.ReadKey();
             }//catch
         }//Main
-        static int menu(int numberOfTasks,string fileName)
+        static int menu(int numberOfTasks,string fileName,int intTotalScheduleTime)
         {
             int result = -1;
             char chrInput=' ';
@@ -324,8 +328,18 @@ namespace Daily_Schedule
             Console.Write(fileName);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t==============================");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("\n\tTotal Schedule Time=>");
+            
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(intTotalScheduleTime);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("\n\t==============================");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write("\n\tNumber of current tasks={0}", numberOfTasks);
+
+            Console.Write("\n\tNumber of current ==>");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(numberOfTasks);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("\n\t==============================");
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -709,15 +723,17 @@ namespace Daily_Schedule
             }//catch
         }//write_data_to_file
         //--------------------- Read_data_from_file ----------------------------
-        static void Read_data_from_file(ref List<Activity> activities,string fileName)
+        static int Read_data_from_file(ref List<Activity> activities,string fileName)
         {
+            //Activity act = new Activity();
+            int actimportance = -2;
+            int actstatus = -1;
+            int _totalscheduletime = 0;
             try
             {
                 FileStream sourceFile = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 BinaryReader reader = new BinaryReader(sourceFile);
-                //Activity act = new Activity();
-                int actimportance = -2;
-                int actstatus = -1;
+                
                 while (sourceFile.Position < sourceFile.Length) {
                     Activity act = new Activity();
                     act.ActivityName = reader.ReadString();
@@ -759,6 +775,7 @@ namespace Daily_Schedule
                             break;
                     }//switch
                     activities.Add(act);
+                    _totalscheduletime += act.ActivityTimeToFinish;
                 }//while there is data
 
                 
@@ -773,6 +790,7 @@ namespace Daily_Schedule
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.ReadKey();
             }//catch
+            return _totalscheduletime;
         }//write_data_to_file
         //---------------------------------------------------------------------
     }//Program
