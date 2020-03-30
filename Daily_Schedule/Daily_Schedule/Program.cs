@@ -296,7 +296,7 @@ namespace Daily_Schedule
                             Console.ReadKey();
                             break;
                         ///This Case is for reading data from data file
-                        case 8:
+                        case 8:                            
                             tasks.Clear();
                             intTotalScheduleTime=Read_data_from_file(ref tasks, strFileName);
                             break;
